@@ -2,7 +2,7 @@
  Tracker based upon:
  - arduino nano
  - GPS module to recover longitude, latitude, altitude, date and time
- - Epheride library that provides sunset, sundown, azimuth of sun according to longitude, latitude, altitude, date and time
+ - Epheride library that provides sunrise, sundown, azimuth of sun according to longitude, latitude, altitude, date and time
  - Compass module to recover the azimuth of the tracker
  - Computation of the movement of tracker to determine where to go
  - 2 relays module to send 220V to turn the motor to go to Est or West according previous computation
@@ -337,7 +337,7 @@ bool isSundown() {
 }
 
 
-void getSunsetSundown(String *sunset, String *sundown) {
+void getSunriseSundown(String *sunrise, String *sundown) {
   char sz[32];
   String lS, mS, cS;
   byte hr, mn, sec;
@@ -354,14 +354,14 @@ void getSunsetSundown(String *sunset, String *sundown) {
   lmvSoleil(sz, 0, 0, (double)mylatitude, (double)mylongitude, &lS, &mS, &cS, (int)myaltitude); 
 
 #ifdef debug
-  Serial.print(F("Sunset: "));
+  Serial.print(F("Sunrise: "));
   Serial.print(lS);
   Serial.print(F(" Sundown: "));
   Serial.print(cS);
   Serial.print(F("\n"));
 #endif
 
-  *sunset = lS;
+  *sunrise = lS;
   *sundown = cS;
 }
 
@@ -437,14 +437,14 @@ void loop(){
   int delta;
   double expectedAzimuth;
   bool err;
-  String sunset, sundown;
+  String sunrise, sundown;
   
   // gps info
   sunAzimuth = getSunAzimuth();
 
   sundownFlag = isSundown();
 
-  getSunsetSundown(&sunset, &sundown);
+  getSunriseSundown(&sunrise, &sundown);
 
   azimuth = getAzimuth();
 
@@ -485,7 +485,7 @@ void loop(){
     Serial.print(F("Tracker azimuth "));  
     Serial.print(azimuth);  
     Serial.print(F(", Tracker will sleep until "));
-    Serial.print(sunset);
+    Serial.print(sunrise);
     Serial.print(F(" ...\n"));
 #endif
     strcpy(lcdInfo, "Sleeping...");
