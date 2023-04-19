@@ -24,13 +24,13 @@ At setup, the GPS module is used to recover the date (day/month/year), time(hour
 The GPS time is used to initialize an internal time based upon millis() function.
 
 Thanks to the library Ephem_Soleil.h, the GPS date, latitude, longitude and altitude combined with the current time provides:
-* sunset time
+* sunrise time
 * sundown time
 * current azimuth of sun
 
 The compass provides the azimuth of the tracker.
 
-The code computes the sunset, sundown, sun azimuth and tracker azimuth to pilot the 2 relays module to go to Est or West.
+The code computes the sunrise, sundown, sun azimuth and tracker azimuth to pilot the 2 relays module to go to Est or West.
 
 Every day at 3 o'clock, the whole hardware is reseted via the watchdog of the arduino to recover the new date and reinitialize the time.
 
